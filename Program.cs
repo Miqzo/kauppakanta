@@ -17,15 +17,19 @@ class Program
             {
                 case "L":
                     Console.WriteLine("Anna tuotteen nimi:");
-                    string? nimi = Console.ReadLine();
+                    string nimi = Console.ReadLine()?.ToLower() ?? "";
                     Console.WriteLine("Anna tuotteen hinta:");
                     double hinta = Convert.ToDouble(Console.ReadLine());
                     // Lisätään tuote tietokantaan
                     kauppa.LisaaTuote(nimi, hinta);
                     break;
-
                 case "H":
-
+                    // Haetaan tuote tietokannasta
+                    Console.WriteLine("Anna haettavan tuotteen nimi:");
+                    string haettuNimi = Console.ReadLine()?.ToLower() ?? "";
+                    string tuotteet = kauppa.HaeTuotteet(haettuNimi);
+                    Console.WriteLine(tuotteet);
+                    break;
                 case "X":
                     return;
                 default:

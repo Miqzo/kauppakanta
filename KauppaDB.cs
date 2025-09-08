@@ -35,4 +35,29 @@ public class KauppaDB
         commandForInsert.ExecuteNonQuery();
         connection.Close();
     }
+    public string HaeTuotteet(string haettuNimi)
+    {
+        var connection = new SqliteConnection(_connectionString);
+        connection.Open();
+        var commandForSelect = connection.CreateCommand();
+        commandForSelect.CommandText =
+            "SELECT * FROM Tuotteet WHERE nimi LIKE @Nimi";
+        commandForSelect.Parameters.AddWithValue(@"Nimi", haettuNimi);
+        var reader = commandForSelect.ExecuteReader();
+        string tuotteet = "";
+        while (reader.Read())
+        {
+            tuotteet += $"Id: {reader.GetInt32(0)}, Nimi: {reader.GetString(1)}, Hinta: {reader.GetDouble(2)}";
+        }
+        reader.Close();
+        connection.Close();
+        if (tuotteet == "")
+        {
+            return "Hakemaasi tuotetta ei löytynyt.";
+        }
+        else
+        {
+            return tuotteet;
+        }
+    }
 }
